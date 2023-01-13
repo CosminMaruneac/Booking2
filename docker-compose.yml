@@ -1,0 +1,20 @@
+version: "3"
+services:
+  #  Create a service named postgres.
+  postgres:
+    #   Use the Docker Image postgres. This will pull the latest release.
+    image: postgres
+    #   Give the container the name hr_postgres to be easily identified when running.
+    container_name: booking_postgres
+    #   Setup the environment of the container.
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=booking
+    #   Maps port 54320 (localhost) to port 5432 on the container. You can change the ports to fix your needs.
+    ports:
+      - 5432:5432
+    #   Set a volume so the database is not lost after shutting down the container.
+    #   TEMPORARY SOLUTION: To run this docker file on WINDOWS, please comment the below 2 lines.
+    volumes:
+      - ./data:/var/lib/postgresql/data
