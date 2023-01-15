@@ -69,7 +69,7 @@ public class ReservationService {
 
   private void checkRoomsAvailability(List<Room> rooms, LocalDate dateFrom, LocalDate dateTo) {
 
-    List<Reservation> existingReservations = reservationRepository.findExistingReservationsBetweenDates(dateFrom, dateTo);
+    List<Reservation> existingReservations = reservationRepository.findExistingReservations(dateFrom, dateTo);
 
     List<Long> reservedRoomsIds = existingReservations.stream()
         .flatMap(reservation -> reservation.getRooms().stream())
