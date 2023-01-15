@@ -3,13 +3,12 @@ package com.usv.booking.features.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping(path = "/api/v1/users")
+@RestController
+@RequestMapping(path = "/api/v1/accounts")
 public class AccountController {
 
   private final AccountService accountService;
@@ -25,14 +24,21 @@ public class AccountController {
     return ResponseEntity.ok(accountService.getAll());
   }
 
-  @GetMapping(path = "/index")
-  public String getIndex() {
-    return "index";
+  @DeleteMapping(path = "/{id}")
+  public void delete(@PathVariable(name = "id") Long id) {
+
+    accountService.softDelete(id);
   }
 
-  @DeleteMapping(path = "/{id}")
-  public void delete(@PathVariable(name = "id") Integer id) {
+  @PostMapping(path = "/register")
+  public RegisterResponse register(@RequestBody RegisterLoginAccountDto registerLoginAccountDto) {
 
-     accountService.softDelete(id);
+    return accountService.register(registerLoginAccountDto);
+  }
+
+  @PostMapping(path = "/login")
+  public AccountDto login(@RequestBody RegisterLoginAccountDto registerLoginAccountDto) {
+
+    return accountService.login(registerLoginAccountDto);
   }
 }

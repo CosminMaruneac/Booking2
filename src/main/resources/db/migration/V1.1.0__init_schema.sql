@@ -19,7 +19,6 @@ CREATE TABLE reservation
     id                 bigint generated always as identity,
     date_from          DATE,
     date_to            DATE,
-    room_id            integer,
     price              double precision,
     reservation_status varchar,
     owner_id           bigint,

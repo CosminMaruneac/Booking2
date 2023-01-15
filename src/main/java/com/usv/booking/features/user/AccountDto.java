@@ -2,6 +2,8 @@ package com.usv.booking.features.user;
 
 import lombok.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -9,19 +11,28 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
-@Setter
 public class AccountDto implements Serializable {
 
-  private Integer id;
+  private Long id;
 
   private String password;
 
-  private String name;
+  private String firstName;
+
+  private String lastName;
 
   private String email;
 
-  private String phone;
+  private String phoneNumber;
 
-  private LocalDate birthday;
+  @Enumerated(EnumType.STRING)
+  private AccountType accountType;
+
+  private String billingAddress;
+
+  private String profileImageLink;
+
+  private LocalDate birthDate;
+
+  private Boolean isDeleted;
 }

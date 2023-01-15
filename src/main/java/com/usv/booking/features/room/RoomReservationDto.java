@@ -1,13 +1,14 @@
 package com.usv.booking.features.room;
 
-import com.usv.booking.features.facility.Facility;
 import com.usv.booking.features.facility.FacilityDto;
-import com.usv.booking.features.reservation.Reservation;
 import com.usv.booking.features.reservation.ReservationDto;
-import com.usv.booking.features.reservation.RoomReservationInfo;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,8 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoomDto implements Serializable {
-
+public class RoomReservationDto implements Serializable {
   private Long id;
 
   private String title;
@@ -43,7 +43,5 @@ public class RoomDto implements Serializable {
   private CleanStatus cleanStatus;
 
   private Set<FacilityDto> facilities = new HashSet<>();
-
-  private Set<RoomReservationInfo> reservations = new HashSet<>();
 
 }
