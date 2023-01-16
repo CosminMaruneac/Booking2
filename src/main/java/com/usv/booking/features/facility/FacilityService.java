@@ -60,4 +60,11 @@ public class FacilityService {
         .map(facility -> modelMapper.map(facility, FacilityDto.class))
         .collect(Collectors.toList());
   }
+
+  public FacilityDto getById(Long id) {
+
+    return facilityRepository.findById(id)
+        .map(facility -> modelMapper.map(facility, FacilityDto.class))
+        .orElseThrow(EntityNotFoundException::new);
+  }
 }

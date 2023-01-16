@@ -1,13 +1,15 @@
 package com.usv.booking.features.room;
 
-import com.usv.booking.features.facility.Facility;
 import com.usv.booking.features.facility.FacilityDto;
-import com.usv.booking.features.reservation.Reservation;
-import com.usv.booking.features.reservation.ReservationDto;
 import com.usv.booking.features.reservation.RoomReservationInfo;
-import lombok.*;
+import com.usv.booking.features.room.room_image.RoomImageDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,8 +37,6 @@ public class RoomDto implements Serializable {
 
   private Double pricePerNight;
 
-  private String imageUrl;
-
   private String description;
 
   @Enumerated(EnumType.STRING)
@@ -46,4 +46,5 @@ public class RoomDto implements Serializable {
 
   private Set<RoomReservationInfo> reservations = new HashSet<>();
 
+  private Set<RoomImageDto> images = new HashSet<>();
 }

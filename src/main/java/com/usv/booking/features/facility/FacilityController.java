@@ -31,6 +31,13 @@ public class FacilityController {
     return facilityService.getAll();
   }
 
+  @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public FacilityDto getById(@PathVariable(name = "id") Long id) {
+
+    return facilityService.getById(id);
+  }
+
+
   @DeleteMapping(path = "")
   public void bulkDelete(@RequestParam(name = "ids") List<Long> ids) {
 

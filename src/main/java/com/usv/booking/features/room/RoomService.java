@@ -5,6 +5,8 @@ import com.usv.booking.features.facility.FacilityDto;
 import com.usv.booking.features.facility.FacilityRepository;
 import com.usv.booking.features.facility.FacilityService;
 import com.usv.booking.features.reservation.Reservation;
+import com.usv.booking.features.room.room_image.RoomImageDto;
+import com.usv.booking.features.room.room_image.RoomImageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +19,19 @@ import java.util.stream.Collectors;
 public class RoomService {
 
   private final ModelMapper modelMapper;
-
   private final RoomRepository roomRepository;
-
   private final FacilityRepository facilityRepository;
+  private final RoomImageService roomImageService;
 
   public RoomService(ModelMapper modelMapper,
                      RoomRepository roomRepository,
                      FacilityService facilityService,
-                     FacilityRepository facilityRepository) {
+                     FacilityRepository facilityRepository,
+                     RoomImageService roomImageService) {
     this.modelMapper = modelMapper;
     this.roomRepository = roomRepository;
     this.facilityRepository = facilityRepository;
+    this.roomImageService = roomImageService;
   }
 
   public RoomDto create(RoomDto dto) {
@@ -40,7 +43,16 @@ public class RoomService {
         .collect(Collectors.toList()));
     room.setFacilities(new HashSet<>(facilities));
 
-    return modelMapper.map(roomRepository.save(room), RoomDto.class);
+    Room finalRoom = roomRepository.save(room);
+    dto.getImages().forEach(roomImageDto -> roomImageService.create(roomImageDto, finalRoom));
+
+    Set<RoomImageDto> imageDtos = dto.getImages().stream()
+        .map(roomImageDto -> roomImageService.create(roomImageDto, finalRoom))
+        .collect(Collectors.toSet());
+
+    RoomDto roomDto = modelMapper.map(finalRoom, RoomDto.class);
+    roomDto.setImages(imageDtos);
+    return roomDto;
   }
 
   public RoomDto getById(Long id) {
@@ -82,7 +94,6 @@ public class RoomService {
           room.setCapacity(dto.getCapacity());
           room.setCleanStatus(dto.getCleanStatus());
           room.setDescription(dto.getDescription());
-          room.setImageUrl(dto.getImageUrl());
           room.setPetFriendly(dto.getPetFriendly());
           room.setPricePerNight(dto.getPricePerNight());
           room.setBedNumber(dto.getBedNumber());

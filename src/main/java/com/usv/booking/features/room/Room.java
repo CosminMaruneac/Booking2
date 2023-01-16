@@ -2,6 +2,7 @@ package com.usv.booking.features.room;
 
 import com.usv.booking.features.facility.Facility;
 import com.usv.booking.features.reservation.Reservation;
+import com.usv.booking.features.room.room_image.RoomImage;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,8 +38,6 @@ public class Room implements Serializable {
 
   private Double pricePerNight;
 
-  private String imageUrl;
-
   private String description;
 
   @Enumerated(EnumType.STRING)
@@ -53,4 +52,8 @@ public class Room implements Serializable {
 
   @ManyToMany(mappedBy = "rooms")
   private Set<Reservation> reservations = new HashSet<>();
+
+  @OneToMany(mappedBy = "room", fetch = FetchType.LAZY,
+      cascade = CascadeType.MERGE)
+  private Set<RoomImage> images = new HashSet<>();
 }
