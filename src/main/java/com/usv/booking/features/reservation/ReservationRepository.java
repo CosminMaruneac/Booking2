@@ -1,5 +1,6 @@
 package com.usv.booking.features.reservation;
 
+import com.usv.booking.features.user.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,5 +16,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
       "OR (r.dateTo >= :dateFrom AND r.dateTo <= :dateTo)")
   List<Reservation> findExistingReservations(LocalDate dateFrom, LocalDate dateTo);
 
+  List<Reservation> findAllByOwner(Account owner);
 
 }

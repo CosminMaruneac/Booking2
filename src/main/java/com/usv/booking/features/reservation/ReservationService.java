@@ -120,4 +120,13 @@ public class ReservationService {
         .orElseThrow(EntityExistsException::new);
 
   }
+
+  public List<ReservationDto> getByOwnerId(Long ownerId) {
+
+    Account owner = accountRepository.findById(ownerId).orElseThrow(EntityExistsException::new);
+
+    return reservationRepository.findAllByOwner(owner).stream()
+        .map(reservation -> modelMapper.map(reservation, ReservationDto.class))
+        .collect(Collectors.toList());
+  }
 }

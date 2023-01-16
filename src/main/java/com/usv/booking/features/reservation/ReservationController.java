@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/api/v1/reservations")
 @AllArgsConstructor
@@ -33,5 +35,11 @@ public class ReservationController {
   public ReservationDto cancelReservation(@PathVariable(name = "id") Long id) {
 
     return reservationService.cancelReservation(id);
+  }
+
+  @GetMapping(path = "/owner/{ownerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public List<ReservationDto> getReservationsByOwnerId(@PathVariable (name = "ownerId") Long ownerId){
+
+    return reservationService.getByOwnerId(ownerId);
   }
 }
