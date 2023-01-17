@@ -43,17 +43,17 @@ public class Room implements Serializable {
   @Enumerated(EnumType.STRING)
   private CleanStatus cleanStatus;
 
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
   @JoinTable(
       name = "room_facility",
       joinColumns = @JoinColumn(name = "room_id"),
       inverseJoinColumns = @JoinColumn(name = "facility_id"))
   private Set<Facility> facilities = new HashSet<>();
 
-  @ManyToMany(mappedBy = "rooms")
+  @ManyToMany(mappedBy = "rooms", cascade = CascadeType.REMOVE)
   private Set<Reservation> reservations = new HashSet<>();
 
   @OneToMany(mappedBy = "room", fetch = FetchType.LAZY,
-      cascade = CascadeType.MERGE)
+      cascade = CascadeType.REMOVE, orphanRemoval = true)
   private Set<RoomImage> images = new HashSet<>();
 }

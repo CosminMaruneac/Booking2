@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -38,8 +37,14 @@ public class RoomController {
   }
 
   @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public RoomDto update(@RequestBody RoomDto dto){
+  public RoomDto update(@RequestBody RoomDto dto) {
 
     return roomService.update(dto);
+  }
+
+  @DeleteMapping(path = "/{id}")
+  public void deleteById(@PathVariable(name = "id") Long id) {
+
+    roomService.deleteById(id);
   }
 }

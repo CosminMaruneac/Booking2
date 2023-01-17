@@ -104,4 +104,9 @@ public class RoomService {
         })
         .orElseThrow(EntityExistsException::new);
   }
+
+  public void deleteById(Long id) {
+
+    roomRepository.deleteById(id);
+  }
 }
