@@ -31,10 +31,10 @@ public class RoomController {
   @GetMapping(path = "/view-list")
   public List<RoomListViewDto> viewRoomList(@RequestParam(name = "type") Optional<RoomType> roomType,
                                             @RequestParam(name = "price") Optional<Double> price,
-                                            @RequestParam(name = "dateFrom")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate dateFrom,
-                                            @RequestParam(name = "dateTo") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)  LocalDate dateTo) {
+                                            @RequestParam(name = "dateFrom")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<LocalDate> dateFrom,
+                                            @RequestParam(name = "dateTo") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)  Optional<LocalDate> dateTo) {
 
-    return roomService.viewRoomList(roomType.orElse(null), price.orElse(null), dateFrom, dateTo);
+    return roomService.viewRoomList(roomType.orElse(null), price.orElse(null), dateFrom.orElse(null), dateTo.orElse(null));
   }
 
   @PutMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
