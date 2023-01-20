@@ -3,10 +3,11 @@ package com.usv.booking.features.room;
 import com.usv.booking.features.facility.Facility;
 import com.usv.booking.features.facility.FacilityDto;
 import com.usv.booking.features.facility.FacilityRepository;
-import com.usv.booking.features.facility.FacilityService;
 import com.usv.booking.features.reservation.Reservation;
+import com.usv.booking.features.reservation.ReservationRepository;
 import com.usv.booking.features.room.room_image.RoomImageDto;
 import com.usv.booking.features.room.room_image.RoomImageService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -16,22 +17,24 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class RoomService {
 
   private final ModelMapper modelMapper;
   private final RoomRepository roomRepository;
   private final FacilityRepository facilityRepository;
   private final RoomImageService roomImageService;
+  private final ReservationRepository reservationRepository;
 
   public RoomService(ModelMapper modelMapper,
                      RoomRepository roomRepository,
-                     FacilityService facilityService,
                      FacilityRepository facilityRepository,
-                     RoomImageService roomImageService) {
+                     RoomImageService roomImageService, ReservationRepository reservationRepository) {
     this.modelMapper = modelMapper;
     this.roomRepository = roomRepository;
     this.facilityRepository = facilityRepository;
     this.roomImageService = roomImageService;
+    this.reservationRepository = reservationRepository;
   }
 
   public RoomDto create(RoomDto dto) {
@@ -107,6 +110,14 @@ public class RoomService {
 
   public void deleteById(Long id) {
 
+    Optional<Room> room = roomRepository.findById(id);
+
+    if (room.isEmpty()) {
+      log.info("Room with id " + id + " does not exist");
+      return;
+    }
+
+    room.get().getReservations().forEach(reservation -> reservationRepository.deleteById(reservation.getId()));
     roomRepository.deleteById(id);
   }
 }
