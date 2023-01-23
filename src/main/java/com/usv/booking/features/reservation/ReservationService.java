@@ -105,14 +105,14 @@ public class ReservationService {
         .orElseThrow(EntityExistsException::new);
   }
 
-  public ReservationDto cancelReservation(Long id) {
+  public ReservationDto changeReservationStatus(Long id, ReservationStatus reservationStatus) {
 
     return reservationRepository.findById(id)
         .map(reservation -> {
-          if (LocalDate.now().isAfter(reservation.getDateFrom()))
+          if (LocalDate.now().isAfter(reservation.getDateFrom()) && ReservationStatus.CANCELED.equals(reservationStatus))
             throw new BadRequestException("You cannot cancel this reservation!");
 
-          reservation.setReservationStatus(ReservationStatus.CANCELED);
+          reservation.setReservationStatus(reservationStatus);
 
           reservationRepository.save(reservation);
           return modelMapper.map(reservation, ReservationDto.class);

@@ -31,10 +31,11 @@ public class ReservationController {
     return reservationService.getById(id);
   }
 
-  @PatchMapping(path = "/{id}/cancel", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ReservationDto cancelReservation(@PathVariable(name = "id") Long id) {
+  @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ReservationDto changeReservationStatus(@PathVariable(name = "id") Long id,
+                                                @RequestParam(name = "status") ReservationStatus status) {
 
-    return reservationService.cancelReservation(id);
+    return reservationService.changeReservationStatus(id, status);
   }
 
   @GetMapping(path = "/owner/{ownerId}", produces = MediaType.APPLICATION_JSON_VALUE)
