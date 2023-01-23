@@ -1,5 +1,6 @@
 package com.usv.booking.features.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.EnumType;
@@ -15,6 +16,7 @@ public class AccountDto implements Serializable {
 
   private Long id;
 
+  @JsonIgnore
   private String password;
 
   private String firstName;
