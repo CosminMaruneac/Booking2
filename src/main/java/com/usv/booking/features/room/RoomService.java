@@ -118,6 +118,8 @@ public class RoomService {
     }
 
     room.get().getReservations().forEach(reservation -> reservationRepository.deleteById(reservation.getId()));
+    room.get().setFacilities(new HashSet<>());
+    roomRepository.save(room.get());
     roomRepository.deleteById(id);
   }
 }

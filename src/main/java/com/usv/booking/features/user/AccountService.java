@@ -6,7 +6,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +27,11 @@ public class AccountService {
     return accountRepository.findAll().stream()
         .map(user -> modelMapper.map(user, AccountDto.class))
         .collect(Collectors.toList());
+  }
+
+  public List<AccountDto> getAllUsers() {
+
+    return getAll();
   }
 
   public void softDelete(Long id) {
