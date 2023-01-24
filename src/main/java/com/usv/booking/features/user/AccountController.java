@@ -48,4 +48,10 @@ public class AccountController {
 
     return accountService.login(registerLoginAccountDto);
   }
+
+  @PatchMapping(path = "/{userId}/disable")
+  public void deleteUser(@PathVariable(name = "userId") Long userId) {
+
+    accountService.deleteUser(userId);
+  }
 }

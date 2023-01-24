@@ -24,14 +24,10 @@ public class AccountService {
 
   public List<AccountDto> getAll() {
 
-    return accountRepository.findAll().stream()
+    return accountRepository.findAllByIsDeletedFalse()
+        .stream()
         .map(user -> modelMapper.map(user, AccountDto.class))
         .collect(Collectors.toList());
-  }
-
-  public List<AccountDto> getAllUsers() {
-
-    return getAll();
   }
 
   public void softDelete(Long id) {
@@ -92,5 +88,13 @@ public class AccountService {
     }
 
     return modelMapper.map(account, AccountDto.class);
+  }
+
+  public void deleteUser(Long userId) {
+
+    Account account = accountRepository.findById(userId).orElseThrow(() -> new BadRequestException("This user does not exist!"));
+
+    account.setIsDeleted(true);
+    accountRepository.save(account);
   }
 }

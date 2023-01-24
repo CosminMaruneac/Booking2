@@ -19,7 +19,7 @@ public class CacheService {
 
   @Cacheable("users")
   public List<AccountDto> getUsers() {
-    return accountService.getAllUsers();
+    return accountService.getAll();
   }
 
   @CacheEvict(value = "users", allEntries = true)
